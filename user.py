@@ -21,5 +21,23 @@ class User:
 
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO users (first_name, last_name, email) VALUES (%(fname)s, %(lname)s, %(email)s)"
+        query = "INSERT INTO users (first_name, last_name, email) VALUES (%(fname)s, %(lname)s, %(email)s);"
         return connectToMySQL('users').query_db( query, data)
+
+    @classmethod
+    def get_one(cls, data):
+        query = "SELECT * from users WHERE id = %(id)s;"
+        result = connectToMySQL('users').query_db(query, data)
+        if result:
+            return cls(result[0])
+
+    @classmethod
+    def update_users(cls, data):
+        query = "UPDATE users SET first_name = %(fname)s, last_name = %(lname)s, email = %(email)s WHERE id = %(id)s"
+        connectToMySQL('users').query_db(query,data)
+
+    @classmethod
+    def delete_user(cls, data):
+        query = "DELETE FROM users WHERE id = %(id)s"
+        connectToMySQL('users').query_db(query,data)
+
